@@ -1,4 +1,4 @@
-name: CI
+name: oracle
 
 on:
   push:
@@ -9,14 +9,16 @@ permissions:
   contents: read
 
 jobs:
-  test:
-    name: clojure -M:test (JDK ${{ matrix.java }})
+  oracle-test:
+    name: oracle (reference only) — clojure -M:test (JDK ${{ matrix.java }})
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         java: ['17', '21']
     steps:
+      - name: oracle notice
+        run: echo "ORACLE job - reference measurement only, not a gate, not a required check, no native build or gate depends on it (AGENTS.md CI exception, JUN-579)."
       - uses: actions/checkout@v4
 
       - name: Setup JDK ${{ matrix.java }}
@@ -53,10 +55,12 @@ jobs:
   # popErrorScope errors), macOS reliable (real Metal-backed GPU process,
   # no special launch flags needed) — same finding kami-app-amenominaka's
   # own webgpu-smoke job relies on.
-  webgpu-smoke:
-    name: real-browser WebGPU render verification
+  oracle-webgpu-smoke:
+    name: oracle (reference only) — real-browser WebGPU render verification
     runs-on: macos-latest
     steps:
+      - name: oracle notice
+        run: echo "ORACLE job - reference measurement only, not a gate, not a required check, no native build or gate depends on it (AGENTS.md CI exception, JUN-579)."
       - uses: actions/checkout@v4
         with: {path: kami-app-hygaccess-plant}
 
