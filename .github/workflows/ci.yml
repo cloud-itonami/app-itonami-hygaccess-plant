@@ -192,51 +192,37 @@ jobs:
         continue-on-error: true
         with: {repository: kotoba-lang/physics-2d, path: physics-2d}
 
-      - name: probe render siblings (skip smoke when unavailable)
-        id: siblings-probe
-        continue-on-error: true
-        # NOTE: a failed actions/checkout leaves an EMPTY dir behind (git init
-        # runs before the fetch fails), so test for non-empty dirs, not mere
-        # existence.
-        run: |
-          missing=""
-          for d in webgpu org-w3-webgpu wgsl expr sprite-gpu sprite2d sky shaders render render-shaders scene2d gpu webgl dance physics fsm netsync pipelines level host playwright cartpole-math kami-engine-sdk physics-2d; do
-            if [ -z "$(ls -A "$d" 2>/dev/null)" ]; then missing="$missing $d"; fi
-          done
-          if [ -n "$missing" ]; then echo "missing sibling checkouts:$missing"; exit 1; fi
-          echo "all render siblings present"
-
       - uses: DeLaGuardo/setup-clojure@13.1
-        if: steps.siblings-probe.outcome == 'success'
+        if: steps.checkout-webgpu.outcome == 'success' && steps.checkout-org-w3-webgpu.outcome == 'success' && steps.checkout-wgsl.outcome == 'success' && steps.checkout-expr.outcome == 'success' && steps.checkout-sprite-gpu.outcome == 'success' && steps.checkout-sprite2d.outcome == 'success' && steps.checkout-sky.outcome == 'success' && steps.checkout-shaders.outcome == 'success' && steps.checkout-render.outcome == 'success' && steps.checkout-render-shaders.outcome == 'success' && steps.checkout-scene2d.outcome == 'success' && steps.checkout-gpu.outcome == 'success' && steps.checkout-webgl.outcome == 'success' && steps.checkout-dance.outcome == 'success' && steps.checkout-physics.outcome == 'success' && steps.checkout-fsm.outcome == 'success' && steps.checkout-netsync.outcome == 'success' && steps.checkout-pipelines.outcome == 'success' && steps.checkout-level.outcome == 'success' && steps.checkout-host.outcome == 'success' && steps.checkout-playwright.outcome == 'success' && steps.checkout-cartpole-math.outcome == 'success' && steps.checkout-kami-engine-sdk.outcome == 'success' && steps.checkout-physics-2d.outcome == 'success'
         
         with:
           cli: latest
           github-token: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/setup-node@v4
-        if: steps.siblings-probe.outcome == 'success'
+        if: steps.checkout-webgpu.outcome == 'success' && steps.checkout-org-w3-webgpu.outcome == 'success' && steps.checkout-wgsl.outcome == 'success' && steps.checkout-expr.outcome == 'success' && steps.checkout-sprite-gpu.outcome == 'success' && steps.checkout-sprite2d.outcome == 'success' && steps.checkout-sky.outcome == 'success' && steps.checkout-shaders.outcome == 'success' && steps.checkout-render.outcome == 'success' && steps.checkout-render-shaders.outcome == 'success' && steps.checkout-scene2d.outcome == 'success' && steps.checkout-gpu.outcome == 'success' && steps.checkout-webgl.outcome == 'success' && steps.checkout-dance.outcome == 'success' && steps.checkout-physics.outcome == 'success' && steps.checkout-fsm.outcome == 'success' && steps.checkout-netsync.outcome == 'success' && steps.checkout-pipelines.outcome == 'success' && steps.checkout-level.outcome == 'success' && steps.checkout-host.outcome == 'success' && steps.checkout-playwright.outcome == 'success' && steps.checkout-cartpole-math.outcome == 'success' && steps.checkout-kami-engine-sdk.outcome == 'success' && steps.checkout-physics-2d.outcome == 'success'
         
         with:
           node-version: 22
 
       - run: npm install
-        if: steps.siblings-probe.outcome == 'success'
+        if: steps.checkout-webgpu.outcome == 'success' && steps.checkout-org-w3-webgpu.outcome == 'success' && steps.checkout-wgsl.outcome == 'success' && steps.checkout-expr.outcome == 'success' && steps.checkout-sprite-gpu.outcome == 'success' && steps.checkout-sprite2d.outcome == 'success' && steps.checkout-sky.outcome == 'success' && steps.checkout-shaders.outcome == 'success' && steps.checkout-render.outcome == 'success' && steps.checkout-render-shaders.outcome == 'success' && steps.checkout-scene2d.outcome == 'success' && steps.checkout-gpu.outcome == 'success' && steps.checkout-webgl.outcome == 'success' && steps.checkout-dance.outcome == 'success' && steps.checkout-physics.outcome == 'success' && steps.checkout-fsm.outcome == 'success' && steps.checkout-netsync.outcome == 'success' && steps.checkout-pipelines.outcome == 'success' && steps.checkout-level.outcome == 'success' && steps.checkout-host.outcome == 'success' && steps.checkout-playwright.outcome == 'success' && steps.checkout-cartpole-math.outcome == 'success' && steps.checkout-kami-engine-sdk.outcome == 'success' && steps.checkout-physics-2d.outcome == 'success'
         
         working-directory: kami-app-hygaccess-plant
       - run: npx playwright install chromium
-        if: steps.siblings-probe.outcome == 'success'
+        if: steps.checkout-webgpu.outcome == 'success' && steps.checkout-org-w3-webgpu.outcome == 'success' && steps.checkout-wgsl.outcome == 'success' && steps.checkout-expr.outcome == 'success' && steps.checkout-sprite-gpu.outcome == 'success' && steps.checkout-sprite2d.outcome == 'success' && steps.checkout-sky.outcome == 'success' && steps.checkout-shaders.outcome == 'success' && steps.checkout-render.outcome == 'success' && steps.checkout-render-shaders.outcome == 'success' && steps.checkout-scene2d.outcome == 'success' && steps.checkout-gpu.outcome == 'success' && steps.checkout-webgl.outcome == 'success' && steps.checkout-dance.outcome == 'success' && steps.checkout-physics.outcome == 'success' && steps.checkout-fsm.outcome == 'success' && steps.checkout-netsync.outcome == 'success' && steps.checkout-pipelines.outcome == 'success' && steps.checkout-level.outcome == 'success' && steps.checkout-host.outcome == 'success' && steps.checkout-playwright.outcome == 'success' && steps.checkout-cartpole-math.outcome == 'success' && steps.checkout-kami-engine-sdk.outcome == 'success' && steps.checkout-physics-2d.outcome == 'success'
         
         working-directory: kami-app-hygaccess-plant
       - run: npx shadow-cljs compile render-demo
-        if: steps.siblings-probe.outcome == 'success'
+        if: steps.checkout-webgpu.outcome == 'success' && steps.checkout-org-w3-webgpu.outcome == 'success' && steps.checkout-wgsl.outcome == 'success' && steps.checkout-expr.outcome == 'success' && steps.checkout-sprite-gpu.outcome == 'success' && steps.checkout-sprite2d.outcome == 'success' && steps.checkout-sky.outcome == 'success' && steps.checkout-shaders.outcome == 'success' && steps.checkout-render.outcome == 'success' && steps.checkout-render-shaders.outcome == 'success' && steps.checkout-scene2d.outcome == 'success' && steps.checkout-gpu.outcome == 'success' && steps.checkout-webgl.outcome == 'success' && steps.checkout-dance.outcome == 'success' && steps.checkout-physics.outcome == 'success' && steps.checkout-fsm.outcome == 'success' && steps.checkout-netsync.outcome == 'success' && steps.checkout-pipelines.outcome == 'success' && steps.checkout-level.outcome == 'success' && steps.checkout-host.outcome == 'success' && steps.checkout-playwright.outcome == 'success' && steps.checkout-cartpole-math.outcome == 'success' && steps.checkout-kami-engine-sdk.outcome == 'success' && steps.checkout-physics-2d.outcome == 'success'
         
         working-directory: kami-app-hygaccess-plant
       - run: npx nbb -cp test/render test/render/verify_render.cljk
-        if: steps.siblings-probe.outcome == 'success'
+        if: steps.checkout-webgpu.outcome == 'success' && steps.checkout-org-w3-webgpu.outcome == 'success' && steps.checkout-wgsl.outcome == 'success' && steps.checkout-expr.outcome == 'success' && steps.checkout-sprite-gpu.outcome == 'success' && steps.checkout-sprite2d.outcome == 'success' && steps.checkout-sky.outcome == 'success' && steps.checkout-shaders.outcome == 'success' && steps.checkout-render.outcome == 'success' && steps.checkout-render-shaders.outcome == 'success' && steps.checkout-scene2d.outcome == 'success' && steps.checkout-gpu.outcome == 'success' && steps.checkout-webgl.outcome == 'success' && steps.checkout-dance.outcome == 'success' && steps.checkout-physics.outcome == 'success' && steps.checkout-fsm.outcome == 'success' && steps.checkout-netsync.outcome == 'success' && steps.checkout-pipelines.outcome == 'success' && steps.checkout-level.outcome == 'success' && steps.checkout-host.outcome == 'success' && steps.checkout-playwright.outcome == 'success' && steps.checkout-cartpole-math.outcome == 'success' && steps.checkout-kami-engine-sdk.outcome == 'success' && steps.checkout-physics-2d.outcome == 'success'
         
         working-directory: kami-app-hygaccess-plant
 
       - name: oracle skipped - render siblings unavailable (notice, not a failure)
-        if: steps.siblings-probe.outcome != 'success'
+        if: steps.checkout-webgpu.outcome != 'success' || steps.checkout-org-w3-webgpu.outcome != 'success' || steps.checkout-wgsl.outcome != 'success' || steps.checkout-expr.outcome != 'success' || steps.checkout-sprite-gpu.outcome != 'success' || steps.checkout-sprite2d.outcome != 'success' || steps.checkout-sky.outcome != 'success' || steps.checkout-shaders.outcome != 'success' || steps.checkout-render.outcome != 'success' || steps.checkout-render-shaders.outcome != 'success' || steps.checkout-scene2d.outcome != 'success' || steps.checkout-gpu.outcome != 'success' || steps.checkout-webgl.outcome != 'success' || steps.checkout-dance.outcome != 'success' || steps.checkout-physics.outcome != 'success' || steps.checkout-fsm.outcome != 'success' || steps.checkout-netsync.outcome != 'success' || steps.checkout-pipelines.outcome != 'success' || steps.checkout-level.outcome != 'success' || steps.checkout-host.outcome != 'success' || steps.checkout-playwright.outcome != 'success' || steps.checkout-cartpole-math.outcome != 'success' || steps.checkout-kami-engine-sdk.outcome != 'success' || steps.checkout-physics-2d.outcome != 'success'
         run: |
           echo 'NOTICE - skipping real-browser WebGPU render verification: one or more of the 24 kotoba-lang sibling checkouts (webgpu, org-w3-webgpu, wgsl, expr, sprite-gpu, sprite2d, sky, shaders, render, render-shaders, scene2d, gpu, webgl, dance, physics, fsm, netsync, pipelines, level, host, playwright, cartpole-math, kami-engine-sdk, physics-2d) are unavailable (repos deleted in the kotoba monorepo move). Dev decision, Itonami Bots item 134; tracking: AWAI-3835. The -M:test job above still ran.'
           echo "::notice ::oracle skipped WebGPU smoke (deleted kotoba-lang sibling repos). See AWAI-3835."
