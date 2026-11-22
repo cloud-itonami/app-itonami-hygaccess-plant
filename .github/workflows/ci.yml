@@ -195,10 +195,13 @@ jobs:
       - name: probe render siblings (skip smoke when unavailable)
         id: siblings-probe
         continue-on-error: true
+        # NOTE: a failed actions/checkout leaves an EMPTY dir behind (git init
+        # runs before the fetch fails), so test for non-empty dirs, not mere
+        # existence.
         run: |
           missing=""
           for d in webgpu org-w3-webgpu wgsl expr sprite-gpu sprite2d sky shaders render render-shaders scene2d gpu webgl dance physics fsm netsync pipelines level host playwright cartpole-math kami-engine-sdk physics-2d; do
-            if [ ! -d "$d" ]; then missing="$missing $d"; fi
+            if [ -z "$(ls -A "$d" 2>/dev/null)" ]; then missing="$missing $d"; fi
           done
           if [ -n "$missing" ]; then echo "missing sibling checkouts:$missing"; exit 1; fi
           echo "all render siblings present"
